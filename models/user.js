@@ -1,4 +1,7 @@
 'use strict';
+
+const crypto = require('crypto')
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
@@ -24,8 +27,14 @@ module.exports = (sequelize, DataTypes) => {
     },
 
   }, {});
+
   User.associate = function(models) {
     // associations can be defined here
   };
+
+  User.hashPassword = function (password) {
+    return crypto.createHash('md5').update(password).digest('hex')
+  };
+
   return User;
 };
