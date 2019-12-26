@@ -55,27 +55,47 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const {password, email} = req.body;
 
-  const hash = await models.User.hashPassword(password);
+  console.log(req.session)
+  try {
+    const {password, email} = req.body;
 
-  if (!(password && email)) {
-    res.status(401).send('please enter email and/or password')
-    return
-  }
+    const hash = await models.User.hashPassword(password);
 
-  const user = await services.user.findUserByPassAndEmail(email, hash);
+    if (!(password && email)) {
+      res.status(401).send('please enter email and/or password')
+      return
+    }
 
-  if (user) {
-    req.session.loggedin = true;
-    req.session.email = email;
+    const user = await services.user.findUserByPassAndEmail(email, hash);
 
-    res.send(user)
-  } else {
-    res.status(401).send('Incorrect email or password')
-    return
+    if (user) {
+      req.session.loggedin = true;
+      req.session.userId = user.id;
+      console.log(req.session)
+
+      res.send(user)
+    } else {
+      res.status(401).send('Incorrect email or password')
+      return
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).send()
   }
 
 });
+
+router.delete('/logout', async (req, res) => {
+  try {
+    req.session.destroy(function (err) {
+      console.log(err)
+    })
+    res.send()
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+})
 
 module.exports = router;
