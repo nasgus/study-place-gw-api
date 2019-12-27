@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemone node .",
+    "dev": "nodemon node .",
     "db-set": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "dependencies": {
@@ -8,12 +8,15 @@
     "body-parser": "^1.19.0",
     "connect-redis": "^4.0.3",
     "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-messages": "^1.0.1",
     "express-session": "^1.17.0",
+    "joi": "^14.3.1",
     "morgan": "^1.9.1",
     "mysql2": "^2.1.0",
+    "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sequelize": "^5.21.3",
