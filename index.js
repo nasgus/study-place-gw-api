@@ -6,22 +6,26 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:8080',
+  allowedHeaders: 'Content-Type',
+  credentials: true
+}));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(session({
-  cookie: { maxAge: 60000 },
+  cookie: {maxAge: 60000},
   secret: process.env.APPLICATION_TOKEN,
   saveUninitialized: false,
   resave: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -29,5 +33,9 @@ const usersRouter = require('./routes/users');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use(function(req, res, next) {
+  res.status(404).send('Sorry cant find that!');
+});
 
-app.listen(3000, () => console.log('Server started listening on port 3000!'))
+
+app.listen(3000, () => console.log('Server started listening on port 3000!'));
