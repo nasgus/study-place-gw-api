@@ -7,6 +7,7 @@ const models = require('../models');
 
 const userSchema = Joi.object().keys({
   email: Joi.string().email().required(),
+  login: Joi.string().required(),
   password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),

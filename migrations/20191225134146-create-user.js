@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       profileId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,

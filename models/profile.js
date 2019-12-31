@@ -1,12 +1,7 @@
 'use strict';
 
-const crypto = require('crypto')
-
 module.exports = (sequelize, DataTypes) => {
   const Profile = sequelize.define('Profile', {
-    userId: {
-      type: DataTypes.UUID
-    },
     photo: {
       type: DataTypes.BLOB
     },
@@ -35,11 +30,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       required: true
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: true
     }
   }, {});
 
   Profile.associate = function(models) {
-    Profile.belongsTo(models.User)
+    Profile.hasOne(models.User, {as: 'user'})
   };
 
   return Profile;
