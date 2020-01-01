@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   User.associate = function (models) {
-    User.belongsTo(models.Profile, {as: 'profile'})
+    User.hasOne(models.Profile, {as: 'profile', foreignKey: 'userId'})
   };
 
   User.hashPassword = function (password) {

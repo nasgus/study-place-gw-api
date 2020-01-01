@@ -57,23 +57,20 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-  console.log(req.session)
   try {
-    const {password, email} = req.body;
+    const {password, login} = req.body;
 
     const hash = await models.User.hashPassword(password);
 
-    if (!(password && email)) {
+    if (!(password && login)) {
       res.status(401).send('please enter email and/or password')
       return
     }
 
-    const user = await services.user.findUserByPassAndEmail(email, hash);
+    const user = await services.user.findUserByPassAndLogin(login, hash);
 
     if (user) {
-      req.session.loggedin = true;
       req.session.userId = user.id;
-      console.log(req.session)
 
       res.send(user)
     } else {

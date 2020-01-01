@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       required: true
     },
+    description: {
+      type: DataTypes.STRING
+    },
     userId: {
       type: DataTypes.UUID,
       allowNull: true
@@ -38,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Profile.associate = function(models) {
-    Profile.hasOne(models.User, {as: 'user'})
+    Profile.hasOne(models.User, {as: 'user', foreignKey: 'profileId'})
   };
 
   return Profile;

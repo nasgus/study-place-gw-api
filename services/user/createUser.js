@@ -7,11 +7,10 @@ module.exports = async function (newUser) {
     delete newUser.login;
     delete newUser.password;
 
-    // let profile = await models.Profile.create(newUser);
+    let profile = await models.Profile.create(newUser);
 
-    user.createProfile(newUser);
-    // console.log(profile)
-    // profile.CreaUsers(user);
+    user.setProfile(profile);
+    profile.setUser(user);
 
     return user
   } catch (e) {
