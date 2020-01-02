@@ -1,13 +1,13 @@
 const models = require('../../models');
 
-module.exports = async function (email, hash) {
+module.exports = async function (login, hash) {
   try {
     let user = await models.User.findOne({
       where: {
-        email: email,
+        login: login,
         password: hash
       },
-      attributes: ['id', 'email', 'firstName', 'lastName', 'middleName']
+      attributes: ['id']
     });
 
     return user

@@ -4,32 +4,22 @@ const crypto = require('crypto')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    firstName: {
+    login: {
       type: DataTypes.STRING,
-      required: true,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      required: true,
-    },
-    middleName: {
-      type: DataTypes.STRING,
-      required: true
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
       required: true
     },
     password: {
       type: DataTypes.STRING,
       required: true
     },
-
+    profileId: {
+      type: DataTypes.UUID,
+      allowNull: true
+    }
   }, {});
 
-  User.associate = function(models) {
-    // associations can be defined here
+  User.associate = function (models) {
+    User.hasOne(models.Profile, {as: 'profile', foreignKey: 'userId'})
   };
 
   User.hashPassword = function (password) {

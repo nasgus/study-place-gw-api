@@ -1,13 +1,12 @@
 const models = require('../../models');
 
-module.exports = async function (email) {
+module.exports = async function (userId) {
   try {
     let profile = await models.Profile.findOne({
       where: {
-        email: email
+        userId
       }
     });
-
     return profile
   } catch (e) {
     console.log(e);
