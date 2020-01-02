@@ -13,7 +13,8 @@ const app = express();
 app.use(cors({
   origin: 'http://localhost:8080',
   allowedHeaders: 'Content-Type',
-  credentials: true
+  credentials: true,
+  exposedHeaders: 'Authorized'
 }));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -24,11 +25,13 @@ app.use(session({
   cookie: {maxAge: 60000 * 5},
   secret: process.env.APPLICATION_TOKEN,
   saveUninitialized: false,
-  resave: false
+  resave: true
 }));
-
 app.use((req, res, next) => {
-  console.log(req.session)
+  if (req.session.userId) {
+    res.setHeader('Authorized', req.session.userId)
+  } else {
+  }
   next()
 })
 
