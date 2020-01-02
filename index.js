@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(session({
-  cookie: {maxAge: 60000 * 5},
+  cookie: {maxAge: 60000},
   secret: process.env.APPLICATION_TOKEN,
   saveUninitialized: false,
   resave: true
