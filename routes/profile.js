@@ -7,7 +7,7 @@ router.get('/', async function (req, res) {
     const userId = req.session.userId;
 
     if (userId) {
-      let profile = await services.profile.getProfileById(userId);
+      let profile = await services.profile.getProfileByUserId(userId);
 
       res.send(profile)
     } else {

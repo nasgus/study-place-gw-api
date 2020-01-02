@@ -71,8 +71,8 @@ router.post('/login', async (req, res) => {
 
     if (user) {
       req.session.userId = user.id;
-
-      res.send(user)
+      let profile = await services.profile.getProfileByUserId(user.id);
+      res.send(profile)
     } else {
       res.status(401).send('Incorrect email or password')
       return
