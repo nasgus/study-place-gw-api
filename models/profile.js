@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BLOB
     },
     phone: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true
     },
     education: {
       type: DataTypes.STRING

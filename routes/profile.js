@@ -6,21 +6,27 @@ router.get('/', async function (req, res) {
   try {
     const userId = req.session.userId;
 
-    if (userId) {
-      let profile = await services.profile.getProfileByUserId(userId);
+    let profile = await services.profile.getProfileByUserId(userId);
 
-      res.send(profile)
-    } else {
-      res.sendStatus(401)
-    }
-
-  }catch (e) {
+    res.send(profile)
+  } catch (e) {
     console.log(e);
     res.sendStatus(500)
   }
 });
 
-router.post('/registration', async function (req, res) {
+router.post('/edit', async function (req, res) {
+  try {
+    const userId = req.session.userId;
+
+    let profile = await services.profile.updateProfileByUserId(userId, req.body);
+    console.log(profile)
+
+    res.send(profile[0])
+  } catch (e) {
+    res.sendStatus(500)
+    console.log(e)
+  }
 
 });
 
