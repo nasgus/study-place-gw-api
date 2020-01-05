@@ -35,13 +35,13 @@ app.use(setAuthorizationHeader);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
+const friendRouter = require('./routes/friend')
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-app.use(checkUser); //check auth token
-
 app.use('/profile', profileRouter);
+app.use('/friend', friendRouter);
+app.use(checkUser); //check auth token
 
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that!');

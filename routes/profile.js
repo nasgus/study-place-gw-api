@@ -8,8 +8,6 @@ router.get('/', async function (req, res) {
 
     let profile = await services.profile.getProfileByUserId(userId);
 
-    profile.photo = profile.photo.toString();
-
     res.send(profile)
   } catch (e) {
     console.log(e);

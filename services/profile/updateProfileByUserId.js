@@ -11,7 +11,9 @@ module.exports = async function (userId, values) {
 
     let profile = await models.Profile.findOne({where: {userId}});
 
-    profile.photo = profile.photo.toString();
+    if (profile.photo) {
+      profile.photo = profile.photo.toString();
+    }
     // console.log(profile.photo);
 
     return profile

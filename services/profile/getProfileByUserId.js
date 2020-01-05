@@ -7,6 +7,11 @@ module.exports = async function (userId) {
         userId
       }
     });
+
+    if (profile.photo) {
+      profile.photo = profile.photo.toString();
+    }
+
     return profile
   } catch (e) {
     console.log(e);
