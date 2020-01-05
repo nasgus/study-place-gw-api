@@ -9,10 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       login: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        required: true
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        required: true
       },
       profileId: {
         type: Sequelize.UUID,
