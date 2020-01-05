@@ -8,6 +8,8 @@ router.get('/', async function (req, res) {
 
     let profile = await services.profile.getProfileByUserId(userId);
 
+    profile.photo = profile.photo.toString();
+
     res.send(profile)
   } catch (e) {
     console.log(e);
@@ -20,9 +22,8 @@ router.post('/edit', async function (req, res) {
     const userId = req.session.userId;
 
     let profile = await services.profile.updateProfileByUserId(userId, req.body);
-    console.log(profile)
 
-    res.send(profile[0])
+    res.send(profile)
   } catch (e) {
     res.sendStatus(500)
     console.log(e)
