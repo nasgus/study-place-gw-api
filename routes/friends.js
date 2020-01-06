@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const services = require('../services');
 
+router.get('/', async function (req, res) {
+  try {
+    let userId = req.session.userId;
+
+    let friends = await services.friend.getFriends(userId);
+
+    res.send(friends)
+
+  } catch (e) {
+    res.sendStatus(500);
+    console.log(e)
+  }
+});
+
 router.post('/accept', async function (req, res) {
   try {
     const userId = req.session.userId;

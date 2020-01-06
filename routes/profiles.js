@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const services = require('../services');
 
-router.get('/', async function (req, res) {
+router.get('/me', async function (req, res) {
   try {
     const userId = req.session.userId;
 
