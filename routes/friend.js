@@ -16,12 +16,17 @@ router.post('/accept', async function (req, res) {
 });
 
 router.post('/create', async function (req, res) {
-  const userId = req.session.userId;
-
   try {
-    await services.friend.createFriend(userId, req.body.friendId);
+    const userId = req.session.userId;
+    const userIdentity = req.body.userIdentity;
 
-    res.sendStatus(200)
+    let friend = await services.friend.createFriend(userId, userIdentity);
+
+    if (friend === 404) {
+      res.status(404).send('User not found')
+    } else {
+      res.send(friend)
+    }
   } catch (e) {
     res.sendStatus(500);
     console.log(e)

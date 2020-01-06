@@ -23,7 +23,7 @@ router.post('/edit', async function (req, res) {
 
     res.send(profile)
   } catch (e) {
-    res.sendStatus(500)
+    res.sendStatus(500);
     console.log(e)
   }
 
