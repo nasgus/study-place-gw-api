@@ -24,10 +24,18 @@ module.exports = async function (userId) {
     });
 
     let subscribersIds = subscribers.map(friends => friends.friendOne);
+    let friendsIds = friends.map(friend => friend.friendOne);
 
     let subscribersProfiles = await models.Profile.findAll({
       where: {
         userId: subscribersIds
+      },
+      attributes: ['firstName', 'lastName', 'education', 'userId']
+    });
+
+    let friendsProfiles = await models.Profile.findAll({
+      where: {
+        userId: friendsIds
       },
       attributes: ['firstName', 'lastName', 'education', 'userId']
     })
@@ -35,7 +43,7 @@ module.exports = async function (userId) {
     // console.log(friends, subscribersProfiles);
 
     return {
-      friends: friends,
+      friends: friendsProfiles,
       subscribers: subscribersProfiles
     }
   } catch (e) {
