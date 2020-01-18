@@ -5,8 +5,20 @@ module.exports = async function (userId) {
     let profile = await models.Profile.findOne({
       where: {
         userId
-      }
+      },
+      include: [
+        {
+          model: models.User,
+          as: 'user',
+          attributes: ['identity']
+        }
+      ]
     });
+
+    if (profile.photo) {
+      profile.photo = profile.photo.toString();
+    }
+
     return profile
   } catch (e) {
     console.log(e);

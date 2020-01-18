@@ -1,29 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('Friends', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      identity: {
-        type: Sequelize.STRING,
-        required: true
-      },
-      login: {
-        type: Sequelize.STRING,
-        unique: true,
-        required: true
-      },
-      password: {
-        type: Sequelize.STRING,
-        required: true
-      },
-      profileId: {
+      friendOne: {
         type: Sequelize.UUID,
-        allowNull: true
+        required: true
+      },
+      friendTwo: {
+        type: Sequelize.UUID,
+        required: true
+      },
+      status: {
+        type: Sequelize.STRING,
+        required: true
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('Friends');
   }
 };

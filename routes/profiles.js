@@ -2,13 +2,11 @@ const express = require('express');
 const router = express.Router();
 const services = require('../services');
 
-router.get('/', async function (req, res) {
+router.get('/me', async function (req, res) {
   try {
     const userId = req.session.userId;
 
     let profile = await services.profile.getProfileByUserId(userId);
-
-    profile.photo = profile.photo.toString();
 
     res.send(profile)
   } catch (e) {
@@ -25,7 +23,7 @@ router.post('/edit', async function (req, res) {
 
     res.send(profile)
   } catch (e) {
-    res.sendStatus(500)
+    res.sendStatus(500);
     console.log(e)
   }
 
