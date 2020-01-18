@@ -11,6 +11,15 @@ const cors = require('cors');
 const {checkUser, setAuthorizationHeader} = require('./middlewares');
 
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+io.on('connection', async (socket) => {
+    console.log('new user')
+  socket.on('text', async (from, msg) => {
+    console.log('I received a private message by ', from, ' saying ', msg)
+  })
+})
 
 app.use(cors({
   origin: 'http://localhost:8080',
@@ -48,4 +57,4 @@ app.use(function(req, res, next) {
 });
 
 
-app.listen(3000, () => console.log('Server started listening on port 3000!'));
+server.listen(3000, () => console.log('Server started listening on port 3000!'));
