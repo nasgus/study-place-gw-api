@@ -16,13 +16,13 @@ const io = require('socket.io')(server);
 
 io.on('connection', async (socket) => {
     console.log('new user')
-  socket.on('text', async (from, msg) => {
-    console.log('I received a private message by ', from, ' saying ', msg)
+  socket.on('notebook', async (msg, from, to) => {
+    console.log('I received a private message by ', from, ' saying ', msg, 'to', to)
   })
 })
 
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: 'http://192.168.1.109:8080',
   allowedHeaders: 'Content-Type',
   credentials: true,
   exposedHeaders: 'Authorized'
@@ -44,13 +44,15 @@ app.use(setAuthorizationHeader);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profiles');
-const friendRouter = require('./routes/friends')
+const friendRouter = require('./routes/friends');
+const lessonRouter = require('./routes/lessons');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(checkUser); //check auth token
 app.use('/profiles', profileRouter);
 app.use('/friends', friendRouter);
+app.use('/lessons', lessonRouter);
 
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that!');

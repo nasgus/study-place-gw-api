@@ -23,8 +23,21 @@ module.exports = async function (userId) {
       }
     });
 
-    let subscribersIds = subscribers.map(friends => friends.friendOne);
-    let friendsIds = friends.map(friend => friend.friendOne);
+    let subscribersIds = subscribers.map(friends => {
+      if (+friends.friendOne === userId) {
+        return friends.friendTwo
+      } else {
+        return friends.friendOne
+      }
+    });
+
+    let friendsIds = friends.map(friends => {
+      if (+friends.friendOne === userId) {
+        return friends.friendTwo
+      } else {
+        return friends.friendOne
+      }
+    });
 
     let subscribersProfiles = await models.Profile.findAll({
       where: {

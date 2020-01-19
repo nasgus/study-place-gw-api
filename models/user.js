@@ -27,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.Profile, {as: 'profile', foreignKey: 'userId'});
     User.hasMany(models.Friend, {foreignKey: 'friendOne'});
     User.hasMany(models.Friend, {foreignKey: 'friendTwo'});
+    User.hasMany(models.Lesson, {foreignKey: 'outgoingUser'});
+    User.hasMany(models.Lesson, {foreignKey: 'incomingUser'});
   };
 
   User.hashPassword = function (password) {
