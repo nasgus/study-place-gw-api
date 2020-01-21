@@ -14,15 +14,27 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-io.on('connection', async (socket) => {
-    console.log('new user')
-  socket.on('notebook', async (msg, from, to) => {
-    console.log('I received a private message by ', from, ' saying ', msg, 'to', to)
+//sockets
+const lesson = require('./sockets/lesson');
+
+io.on('connection', (socket) => {
+  console.log('user')
+
+  // lesson.connectToRoom(socket);
+  // console.log(socket)
+
+  socket.on('join', room => {
+    // console.log(socket)
+    socket.join(room)
+  })
+
+  socket.on('notebook', (txt, roomId) => {
+    console.log(txt, roomId)
   })
 })
 
 app.use(cors({
-  origin: 'http://192.168.1.109:8080',
+  origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080'],
   allowedHeaders: 'Content-Type',
   credentials: true,
   exposedHeaders: 'Authorized'
