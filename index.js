@@ -16,9 +16,9 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-
 io.on('connection', (socket) => {
   socket.on('send-notebook-text', (txt, room) => {
+    console.log(txt, room)
     socket.to(room).broadcast.emit('notebook-text', txt)
   })
 

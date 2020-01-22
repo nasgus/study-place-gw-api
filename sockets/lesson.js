@@ -1,15 +1,12 @@
 const io = global.io;
 
 module.exports = {
-  async connectToRoom (socket) {
-
-
-
-    socket.on('join', (room) => {
-      console.log(room)
+  sendNotebookText(socket) {
+    return socket.on('send-notebook-text', (txt, room) => {
+      socket.to(room).broadcast.emit('notebook-text', txt)
     })
   },
-  closeRoom () {
+  closeRoom() {
 
   }
 }
