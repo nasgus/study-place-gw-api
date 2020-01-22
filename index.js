@@ -8,30 +8,30 @@ const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
 
+const checkLessonUser = require('./services/lesson/checkUsers')
+
 const {checkUser, setAuthorizationHeader} = require('./middlewares');
 
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-//sockets
-const lesson = require('./sockets/lesson');
 
 io.on('connection', (socket) => {
-  console.log('user')
-
-  // lesson.connectToRoom(socket);
-  // console.log(socket)
-
-  socket.on('join', room => {
-    // console.log(socket)
-    socket.join(room)
+  socket.on('send-notebook-text', (txt, room) => {
+    socket.to(room).broadcast.emit('notebook-text', txt)
   })
 
-  socket.on('notebook', (txt, roomId) => {
-    console.log(txt, roomId)
+  socket.on('join', (room, userId) => {
+    let lesson = checkLessonUser(room, userId)
+
+    if (lesson) {
+      socket.join(room)
+      console.log('HERE')
+    }
   })
-})
+});
+
 
 app.use(cors({
   origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080'],
@@ -66,7 +66,7 @@ app.use('/profiles', profileRouter);
 app.use('/friends', friendRouter);
 app.use('/lessons', lessonRouter);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.status(404).send('Sorry cant find that!');
 });
 

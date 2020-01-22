@@ -1,14 +1,17 @@
 const models = require('../../models');
+const Op  = require('sequelize').Op
 
 module.exports = async function (uniqueLessonId, userId) {
   try {
     let lesson = models.Lesson.findOne({
       where: {
-        uniqueLessonId
+        uniqueLessonId,
+        [Op.or]: [
+          {outgoingUser: userId},
+          {incomingUser: userId}
+        ]
       }
     });
-
-    console.log(lesson);
 
     return lesson
   } catch (e) {
