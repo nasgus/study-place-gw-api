@@ -17,9 +17,10 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
+  console.log('new user with id: ', socket.id)
   socket.on('send-notebook-text', (txt, room) => {
     console.log(txt, room)
-    socket.to(room).broadcast.emit('notebook-text', txt)
+    socket.broadcast.to(room).emit('notebook-text', {txt, from: socket.id})
   })
 
   socket.on('join', (room, userId) => {
