@@ -16,26 +16,32 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+//TODO: create redis for THIS
+let users = {}
+
+
 io.on('connection', (socket) => {
   console.log('new user with id: ', socket.id)
+
   socket.on('send-notebook-text', (txt, room) => {
-    console.log(txt, room)
     socket.broadcast.to(room).emit('notebook-text', {txt, from: socket.id})
-  })
+  });
 
   socket.on('join', (room, userId) => {
     let lesson = checkLessonUser(room, userId)
 
     if (lesson) {
       socket.join(room)
-      console.log('HERE')
     }
+  });
+
+  socket.on('invite-to-lesson', payload => {
+    io.to(users[payload.to]).emit('incoming-call', {lessonId: payload.lessonId, fromFullName: payload.fromFullName})
   })
 });
 
-
 app.use(cors({
-  origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080'],
+  origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080', 'http://localhost:8080'],
   allowedHeaders: 'Content-Type',
   credentials: true,
   exposedHeaders: 'Authorized'
@@ -53,6 +59,15 @@ app.use(session({
 }));
 
 app.use(setAuthorizationHeader);
+
+app.use((req, res, next) => {
+  if(req.session.userId) {
+    req.session.socketId = req.cookies.io;
+    users[req.session.userId] = req.session.socketId
+  }
+  next()
+})
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
