@@ -17,7 +17,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 //TODO: create redis for THIS
-let users = {}
+let users = {};
 
 
 io.on('connection', (socket) => {
@@ -36,7 +36,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('invite-to-lesson', payload => {
-    io.to(users[payload.to]).emit('incoming-call', {lessonId: payload.lessonId, fromFullName: payload.fromFullName})
+    io.to(users[payload.to]).emit('incoming-call', {lessonId: payload.lessonId, fromFullName: payload.fromFullName, fromUserId: payload.fromUserId})
+  })
+
+  socket.on('accept-incoming-call', payload => {
+    console.log(payload);
+    io.to(users[payload.fromUserId]).emit('outgoing-call', payload.accepted)
   })
 });
 
