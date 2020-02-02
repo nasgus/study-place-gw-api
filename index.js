@@ -43,6 +43,20 @@ io.on('connection', (socket) => {
     console.log(payload);
     io.to(users[payload.fromUserId]).emit('outgoing-call', payload.accepted)
   })
+
+  socket.on('video-call', payload => {
+    socket.to(users[payload.to]).emit('call-made', {
+      offer: payload.offer,
+      socket: socket.id
+    })
+  });
+
+  socket.on('make-answer', payload => {
+    socket.to(payload.to).emit('answer-made', {
+      socket: socket.id,
+      answer: payload.answer
+    })
+  })
 });
 
 app.use(cors({
