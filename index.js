@@ -43,6 +43,10 @@ io.on('connection', (socket) => {
     console.log(payload);
     io.to(users[payload.fromUserId]).emit('outgoing-call', payload.accepted)
   })
+
+  socket.on('privateMessagePCSignaling', ({ desc, to, from, room }) => {
+    io.to(users[to]).emit('privateMessagePCSignaling', ({desc, to, from}))
+  })
 });
 
 app.use(cors({

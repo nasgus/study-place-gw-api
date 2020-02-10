@@ -16,21 +16,19 @@ router.post('/create', async function (req, res) {
   }
 });
 
-router.post('/connect', async function (req, res) {
+router.get('/connect/:uniqueLessonId', async function (req, res) {
   try {
-    let uniqueLessonId = req.body.uniqueLessonId;
+    let uniqueLessonId = req.params.uniqueLessonId;
     let userId = req.session.userId;
     let lesson = await services.lesson.checkUsers(uniqueLessonId, userId);
 
     if (lesson) {
-      console.log(!!lesson)
-      // global.io.on('connection', socket => {
-      //   console.log('new user connected from routes with ID: ' + socket.id);
-      //   socket.join(uniqueLessonId);
-      //   console.log('connected')
-      // })
+      let lessonUsers = {
+        me: +lesson.outgoingUser === +userId ? lesson.outgoingUser : lesson.incomingUser,
+        you: +lesson.outgoingUser === +userId ? lesson.incomingUser : lesson.outgoingUser
+      }
 
-      res.send()
+      res.send(lessonUsers)
     }
   } catch (e) {
     console.log(e)
