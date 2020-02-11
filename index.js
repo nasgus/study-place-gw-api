@@ -10,7 +10,7 @@ const cors = require('cors');
 
 const checkLessonUser = require('./services/lesson/checkUsers')
 
-const {checkUser, setAuthorizationHeader} = require('./middlewares');
+const {checkUser} = require('./middlewares');
 
 const app = express();
 const server = require('http').Server(app);
