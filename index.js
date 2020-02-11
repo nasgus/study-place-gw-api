@@ -67,8 +67,6 @@ app.use(session({
   resave: true
 }));
 
-app.use(setAuthorizationHeader);
-
 app.use((req, res, next) => {
   if(req.session.userId) {
     req.session.socketId = req.cookies.io;
