@@ -10,7 +10,7 @@ const cors = require('cors');
 
 const checkLessonUser = require('./services/lesson/checkUsers')
 
-const {checkUser, setAuthorizationHeader} = require('./middlewares');
+const {checkUser} = require('./middlewares');
 
 const app = express();
 const server = require('http').Server(app);
@@ -66,8 +66,6 @@ app.use(session({
   saveUninitialized: false,
   resave: true
 }));
-
-app.use(setAuthorizationHeader);
 
 app.use((req, res, next) => {
   if(req.session.userId) {

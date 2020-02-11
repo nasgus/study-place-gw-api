@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     notebook: {
       type: DataTypes.STRING
+    },
+    title: {
+      type: DataTypes.STRING
     }
   }, {});
 
