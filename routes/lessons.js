@@ -7,7 +7,7 @@ router.post('/create', async function (req, res) {
   try {
     const userId = req.session.userId;
 
-    let lesson = await services.lesson.createLesson(userId, req.body.incomingUser);
+    let lesson = await services.lesson.createLesson(userId, req.body.incomingUser, req.body.title);
 
     res.send(lesson)
   } catch (e) {
