@@ -2,6 +2,22 @@ const express = require('express');
 const router = express.Router();
 const services = require('../services');
 const lessonRoom = require('../sockets/lesson');
+const lessonDecorator = require('../decorators/lessonDecorator');
+
+
+router.get('/', async function (req, res) {
+  const userId = req.session.userId;
+
+  try {
+    let lessons = await services.lesson.getLessons(userId);
+    let decoratedLessons = await lessonDecorator(lessons, userId);
+    console.log(decoratedLessons)
+    res.send(decoratedLessons)
+  } catch (e) {
+    res.sendStatus(500);
+    console.log(e)
+  }
+});
 
 router.post('/create', async function (req, res) {
   try {
@@ -34,7 +50,6 @@ router.get('/connect/:uniqueLessonId', async function (req, res) {
     console.log(e)
     res.sendStatus(500)
   }
-})
-
+});
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const models = require('../../models');
 
-module.exports = async function (userId) {
+module.exports = async function (userId, attributes) {
   try {
     let profile = await models.Profile.findOne({
       where: {
@@ -12,7 +12,8 @@ module.exports = async function (userId) {
           as: 'user',
           attributes: ['identity']
         }
-      ]
+      ],
+      attributes: attributes
     });
 
     if (profile.photo) {
