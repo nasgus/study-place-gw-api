@@ -24,9 +24,10 @@ let users = {};
 io.on('connection', (socket) => {
   console.log('new user with id: ', socket.id)
 
-  socket.on('send-notebook-text', (txt, room) => {
+  socket.on('send-notebook-text', (txt, room, to) => {
     setLessonNotebook(room, txt);
-    socket.broadcast.to(room).emit('notebook-text', {txt, from: socket.id})
+    console.log(txt, room, to)
+    io.to(users[to]).emit('notebook-text', {txt, from: socket.id})
   });
 
   socket.on('join', (room, userId) => {

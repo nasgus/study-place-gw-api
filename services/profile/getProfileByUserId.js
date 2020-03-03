@@ -10,7 +10,6 @@ module.exports = async function (userId, attributes) {
         {
           model: models.User,
           as: 'user',
-          attributes: ['identity']
         }
       ],
       attributes: attributes
