@@ -11,7 +11,6 @@ router.get('/', async function (req, res) {
   try {
     let lessons = await services.lesson.getLessons(userId);
     let decoratedLessons = await lessonDecorator(lessons, userId);
-    console.log(decoratedLessons)
     res.send(decoratedLessons)
   } catch (e) {
     res.sendStatus(500);
@@ -51,5 +50,17 @@ router.get('/connect/:uniqueLessonId', async function (req, res) {
     res.sendStatus(500)
   }
 });
+
+router.get('/notebook/:uniqueLessonId', async function (req, res) {
+  try {
+    let uniqueLessonId = req.params.uniqueLessonId;
+
+
+    res.download(Buffer.from('asdasdasd'), 'txt.txt')
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+})
 
 module.exports = router;
