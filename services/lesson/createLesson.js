@@ -1,6 +1,6 @@
 const models = require('../../models');
 
-module.exports = async function (outgoingUserId, incomingUserId) {
+module.exports = async function (outgoingUserId, incomingUserId, title) {
   try {
     let outgoingUser = await models.User.findByPk(outgoingUserId);
     let incomingUser = await models.User.findByPk(incomingUserId);
@@ -10,7 +10,8 @@ module.exports = async function (outgoingUserId, incomingUserId) {
     let lesson = await models.Lesson.build({
       outgoingUser: outgoingUser.id,
       incomingUser: incomingUser.id,
-      uniqueLessonId: uniqueLessonId
+      uniqueLessonId: uniqueLessonId,
+      title: title
     });
 
     await lesson.save();

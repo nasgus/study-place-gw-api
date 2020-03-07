@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
+const setLessonNotebook = require('./services/lesson/setLessonNotebook')
 
 const checkLessonUser = require('./services/lesson/checkUsers')
 
@@ -23,8 +24,10 @@ let users = {};
 io.on('connection', (socket) => {
   console.log('new user with id: ', socket.id)
 
-  socket.on('send-notebook-text', (txt, room) => {
-    socket.broadcast.to(room).emit('notebook-text', {txt, from: socket.id})
+  socket.on('send-notebook-text', (txt, room, to) => {
+    setLessonNotebook(room, txt);
+    console.log(txt, room, to)
+    io.to(users[to]).emit('notebook-text', {txt, from: socket.id})
   });
 
   socket.on('join', (room, userId) => {
@@ -36,7 +39,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('invite-to-lesson', payload => {
-    io.to(users[payload.to]).emit('incoming-call', {lessonId: payload.lessonId, fromFullName: payload.fromFullName, fromUserId: payload.fromUserId})
+    console.log(payload)
+    io.to(users[payload.to]).emit('incoming-call', {lessonId: payload.lessonId, fromFullName: payload.fromFullName, fromUserId: payload.fromUserId, title: payload.title})
   })
 
   socket.on('accept-incoming-call', payload => {

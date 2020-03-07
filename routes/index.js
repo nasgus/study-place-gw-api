@@ -5,7 +5,7 @@ const services = require('../services');
 router.get('/auth', async function (req, res) {
   try {
     if (req.session.userId) {
-      console.log(req.session.userId)
+      console.log(req.session.userId);
       let profile = await services.profile.getProfileByUserId(req.session.userId);
       res.send(profile)
     } else {

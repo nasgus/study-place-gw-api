@@ -21,7 +21,7 @@ module.exports = {
         required: true
       },
       notebook: {
-        type: Sequelize.STRING
+        type: Sequelize.BLOB
       },
       title: {
         type: Sequelize.STRING
