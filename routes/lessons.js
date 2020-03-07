@@ -3,6 +3,8 @@ const router = express.Router();
 const services = require('../services');
 const lessonRoom = require('../sockets/lesson');
 const lessonDecorator = require('../decorators/lessonDecorator');
+const htmlDocx = require("html-docx-js");
+const fs = require('fs')
 
 
 router.get('/', async function (req, res) {
@@ -54,9 +56,11 @@ router.get('/connect/:uniqueLessonId', async function (req, res) {
 router.get('/notebook/:uniqueLessonId', async function (req, res) {
   try {
     let uniqueLessonId = req.params.uniqueLessonId;
+    let {html, name} = await services.lesson.getNotebook(uniqueLessonId);
 
+    let content = '<!DOCTYPE html><html><body>' + html.toString() + '<html><body>'
 
-    res.download(Buffer.from('asdasdasd'), 'txt.txt')
+    res.send(content)
   } catch (e) {
     console.log(e)
     res.sendStatus(500)
