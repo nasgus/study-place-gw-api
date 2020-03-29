@@ -20,7 +20,6 @@ const io = require('socket.io')(server);
 //TODO: create redis for THIS
 let users = {};
 
-
 io.on('connection', (socket) => {
   console.log('new user with id: ', socket.id)
 
@@ -54,7 +53,7 @@ io.on('connection', (socket) => {
 });
 
 app.use(cors({
-  origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080', 'http://localhost:8080'],
+  origin: ['http://192.168.1.109:8080', 'http://192.168.1.127:8080', 'http://localhost:8080','http://192.168.1.7:8080'],
   allowedHeaders: 'Content-Type',
   credentials: true,
   exposedHeaders: 'Authorized'
