@@ -42,7 +42,8 @@ router.get('/connect/:uniqueLessonId', async function (req, res) {
     if (lesson) {
       let lessonUsers = {
         me: +lesson.outgoingUser === +userId ? lesson.outgoingUser : lesson.incomingUser,
-        you: +lesson.outgoingUser === +userId ? lesson.incomingUser : lesson.outgoingUser
+        you: +lesson.outgoingUser === +userId ? lesson.incomingUser : lesson.outgoingUser,
+        caller: lesson.outgoingUser
       }
 
       res.send(lessonUsers)
